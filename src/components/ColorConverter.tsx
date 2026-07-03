@@ -7,8 +7,10 @@ function ColorConverter() {
   const [rgb, setRgb] = useState<string>('rgb(153, 33, 255)');
 
   useEffect(() => {
-    document.body.style.backgroundColor = '#9921ff';
-  }, []);
+    if (value.length === 7 && isValidHex(value)) {
+      document.body.style.backgroundColor = value;
+    }
+  }, [value]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const input = e.target.value;
@@ -17,14 +19,12 @@ function ColorConverter() {
     if (input.length === 7) {
       if (isValidHex(input)) {
         setError(false);
-        const rgbValue = hexToRgb(input);
-        setRgb(rgbValue);
-        document.body.style.backgroundColor = input;
+        setRgb(hexToRgb(input));
       } else {
         setError(true);
         setRgb('');
       }
-    } else if (input.length < 7) {
+    } else {
       setError(false);
       setRgb('');
     }
